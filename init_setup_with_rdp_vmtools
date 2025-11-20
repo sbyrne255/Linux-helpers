@@ -1,0 +1,14 @@
+sudo bash -c '
+export DEBIAN_FRONTEND=noninteractive;
+wget -O /usr/share/keyrings/kali-archive-keyring.gpg https://archive.kali.org/archive-keyring.gpg;
+apt install --reinstall kali-archive-keyring;
+apt clean;
+apt update -y;
+apt -y full-upgrade;
+apt install xrdp -y;
+adduser xrdp ssl-cert;
+systemctl enable xrdp;
+systemctl start xrdp;
+apt install open-vm-tools-desktop -y;
+gzip -fkd /usr/share/wordlists/rockyou.txt.gz;
+'
