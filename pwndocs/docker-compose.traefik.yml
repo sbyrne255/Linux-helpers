@@ -1,0 +1,18 @@
+pwndoc-frontend:
+  image: yeln4s/pwndoc-frontend
+  container_name: pwndoc-frontend
+  build: ./frontend
+  labels:
+    - "traefik.enable=true"
+    - "traefik.http.routers.pwndoc-frontend-http.rule=Host('pwndoc.WEBSITE.com')"
+    - "traefik.http.routers.pwndoc-frontend-http.entrypoints=web"
+    - "traefik.http.routers.pwndoc-frontend-http.middlewares=redirect"
+    - "traefik.http.middlewares.redirect.redirectscheme.scheme=https"
+    - "traefik.http.middlewares.redirect.redirectscheme.permanent=true"
+    - "traefik.http.routers.pwndoc-frontend-https.rule=Host('pwndoc.WEBSITE.com')"
+    - "traefik.http.routers.pwndoc-frontend-https.entrypoints=web-secure"
+    - "traefik.http.routers.pwndoc-frontend-https.tls=true"
+    - "traefik.http.services.pwndoc-frontend.loadbalancer.server.port=8443"
+    - "traefik.http.services.pwndoc-frontend.loadbalancer.server.scheme=https"
+    - "traefik.http.services.pwndoc-frontend.loadbalancer.passhostheader=true"
+    - "traefik.http.routers.pwndoc-frontend-https.tls.certresolver=letsencrypt"
