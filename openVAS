@@ -1,0 +1,25 @@
+#!/bin/bash
+set -e
+
+sudo apt update
+sudo apt install -y openvas
+
+sudo gvm-setup
+sudo gvm-check-setup
+
+sudo systemctl enable gvmd gsad ospd-openvas
+sudo systemctl start gvmd gsad ospd-openvas
+
+sudo gvm-feed-update
+sudo systemctl restart gvmd
+
+# Install cron jobs (boot + daily)
+(
+  sudo crontab -l 2>/dev/null
+  echo "@reboot sleep 300 && /usr/sbin/gvm-feed-update >> /var/log/gvm-feed.log 2>&1"
+  echo "0 3 * * * /usr/sbin/gvm-feed-update >> /var/log/gvm-feed.log 2>&1"
+) | sudo crontab -
+
+read -s -p "Enter new admin password: " GVM_PASS
+
+sudo gvmd --user=admin --new-password="$GVM_PASS"
