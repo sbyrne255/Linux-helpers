@@ -13,4 +13,5 @@ systemctl enable xrdp;
 systemctl start xrdp;
 apt install open-vm-tools-desktop -y;
 gzip -fkd /usr/share/wordlists/rockyou.txt.gz;
+
 '
