@@ -2,6 +2,8 @@ sudo bash -c '
 export DEBIAN_FRONTEND=noninteractive;
 wget -O /usr/share/keyrings/kali-archive-keyring.gpg https://archive.kali.org/archive-keyring.gpg;
 apt install --reinstall kali-archive-keyring;
+rm /etc/apt/source.list
+echo /etc/apt/source.list "deb https://http.kali.org/kali kali-rolling main contrib non-free non-free-firmware"
 apt clean;
 apt update -y;
 apt -y full-upgrade;
